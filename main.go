@@ -16,6 +16,7 @@ func main() {
 	userName = "Mithun"
 	userTickets = 2
 
+	fmt.Println("Enter your first name: ")
 	fmt.Scan(&userName) //used to take the userinput direct from the user
 	
 	
