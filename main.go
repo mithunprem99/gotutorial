@@ -15,5 +15,11 @@ func main() {
 	//ask the user for name
 	userName = "Mithun"
 	userTickets = 2
+
+	fmt.Scan(&userName) //used to take the userinput direct from the user
+	
+	
+	
+	// fmt.Println(&userName)
 	fmt.Printf("User %v,Booked %v this many tickets", userName, userTickets)
 }
