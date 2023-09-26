@@ -15,6 +15,8 @@ func main() {
 
 	var email string
 	var userTickets uint
+	var booking [50] string
+
 
 	//ask the user for name
 
@@ -31,7 +33,17 @@ func main() {
 
 	fmt.Println("Enter your number of tickets: ")
 	fmt.Scan(&userTickets)
+	
 	remainingTickets = remainingTickets - userTickets
+	booking[0] = firstname + " " + lastname
+	
+	fmt.Printf("The whole array %v\n",booking)
+	fmt.Printf("The firstvalue array %v\n",booking[0])
+	fmt.Printf("Array type%T\n",booking)
+	fmt.Printf("Array type%v\n",len(booking))
+
+
+
 	// fmt.Println(&firstname)
 	fmt.Printf("Thankyou %v %v for booking %v tickets . You will receive confirmation email at %v\n",firstname,lastname,userTickets,email)
 	fmt.Printf("%v remaining tickets in conference %v",remainingTickets,conferenceName)
