@@ -4,15 +4,19 @@ import (
 	"fmt"
 	"strings"
 )
-
-func main() {
-	conferenceName := "Go conference" //variables in go thus can be used for only var and not for const
+var conferenceName = "Go conference" //package level variable that could access from outside the scope
 	const conferenceTickets = 50
 	var remainingTickets uint = 50
+
+
+func main() {
+	// conferenceName := "Go conference" //variables in go thus can be used for only var and not for const
+	// const conferenceTickets = 50
+	// var remainingTickets uint = 50
 	fmt.Printf("conferenceTicket is %T ,remaining %T,conference name %T\n", conferenceTickets, remainingTickets, conferenceName)
 	fmt.Printf("Welcome to our %v booking application\n", conferenceName)
 	fmt.Printf("We have total of %v and from that %v remaining\n", conferenceTickets, remainingTickets)
-
+	greetUsers()
 	for {
 
 		var firstname string
@@ -24,6 +28,8 @@ func main() {
 		//ask the user for name
 
 		userTickets = 2
+
+		
 
 		fmt.Println("\nEnter your first name: ")
 		fmt.Scan(&firstname) //used to take the userinput direct from the user
@@ -37,9 +43,7 @@ func main() {
 		fmt.Println("Enter your number of tickets: ")
 		fmt.Scan(&userTickets)
 
-		isValidName := len(firstname) >= 2 && len(lastname) >= 2
-		isValidEmail := strings.Contains(email, "@")
-		isValidTicketNumber := userTickets > 0 && userTickets <= remainingTickets
+		isValidName,isValidEmail,isValidTicketNumber :=  isValidateUserInput(firstname,lastname,email,userTickets )
 		if isValidName && isValidEmail && isValidTicketNumber {
 
 			remainingTickets = remainingTickets - userTickets
@@ -54,25 +58,21 @@ func main() {
 			// fmt.Println(&firstname)
 			fmt.Printf("Thankyou %v %v for booking %v tickets . You will receive confirmation email at %v\n", firstname, lastname, userTickets, email)
 			fmt.Printf("%v remaining tickets in conference %v\n", remainingTickets, conferenceName)
-			firstnames := []string{}
-			for _, booking := range booking {
-				var name = strings.Fields(booking)
-				firstnames = append(firstnames, name[0])
-			}
-			fmt.Printf("The first name of the bookings are : %v\n", firstnames)
-
+			printFirstName(booking)
+			// firstnames := printFirstName(booking)
+			// fmt.Printf("The first name of the bookings are : %v\n", firstnames)
 			if remainingTickets == 0 {
 				fmt.Println("Our conference is booked out")
 				break
 			}
 		} else {
-			if !isValidName{
+			if !isValidName {
 				fmt.Println("First name or last name is invald")
 			}
-			if !isValidEmail{
+			if !isValidEmail {
 				fmt.Println("Email is invald")
 			}
-			if !isValidTicketNumber{
+			if !isValidTicketNumber {
 				fmt.Println("Ticket number is invald")
 			}
 
@@ -82,4 +82,23 @@ func main() {
 
 	}
 
+}
+
+func greetUsers() {
+	fmt.Printf("Welcome user to the conference %v ",conferenceName)
+}
+
+func printFirstName(booking []string)  {
+	firstnames := []string{}
+			for _, booking := range booking {
+				var name = strings.Fields(booking)
+				firstnames = append(firstnames, name[0])
+			}
+}
+
+func isValidateUserInput(firstname string,lastname string,email string,userTickets uint) (bool, bool,bool) {
+	isValidName := len(firstname) >= 2 && len(lastname) >= 2
+	isValidEmail := strings.Contains(email, "@")
+	isValidTicketNumber := userTickets > 0 && userTickets <= remainingTickets
+	return isValidName,isValidEmail,isValidTicketNumber
 }
