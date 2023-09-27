@@ -37,17 +37,20 @@ func main() {
 		fmt.Println("Enter your number of tickets: ")
 		fmt.Scan(&userTickets)
 
-		if userTickets <= remainingTickets{
+		isValidName := len(firstname) >= 2 && len(lastname) >= 2
+		isValidEmail := strings.Contains(email, "@")
+		isValidTicketNumber := userTickets > 0 && userTickets <= remainingTickets
+		if isValidName && isValidEmail && isValidTicketNumber {
 
 			remainingTickets = remainingTickets - userTickets
 			// booking[0] = firstname + " " + lastname
 			booking = append(booking, firstname+" "+lastname)
-	
+
 			fmt.Printf("The whole slice %v\n", booking)
 			fmt.Printf("The firstvalue slice %v\n", booking[0])
 			fmt.Printf("slice type%T\n", booking)
 			fmt.Printf("slice type%v\n", len(booking))
-	
+
 			// fmt.Println(&firstname)
 			fmt.Printf("Thankyou %v %v for booking %v tickets . You will receive confirmation email at %v\n", firstname, lastname, userTickets, email)
 			fmt.Printf("%v remaining tickets in conference %v\n", remainingTickets, conferenceName)
@@ -57,15 +60,24 @@ func main() {
 				firstnames = append(firstnames, name[0])
 			}
 			fmt.Printf("The first name of the bookings are : %v\n", firstnames)
-	
-			if remainingTickets == 0{
+
+			if remainingTickets == 0 {
 				fmt.Println("Our conference is booked out")
 				break
 			}
-		}else{
+		} else {
+			if !isValidName{
+				fmt.Println("First name or last name is invald")
+			}
+			if !isValidEmail{
+				fmt.Println("Email is invald")
+			}
+			if !isValidTicketNumber{
+				fmt.Println("Ticket number is invald")
+			}
 
-			fmt.Printf("We only have %v tickets remaining so u cant book %v tickets", remainingTickets,userTickets)
-			
+			fmt.Printf("Your input data is invalid")
+
 		}
 
 	}
