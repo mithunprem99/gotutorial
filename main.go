@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"strings"
+	"booking-app/helper"
 )
 var conferenceName = "Go conference" //package level variable that could access from outside the scope
 	const conferenceTickets = 50
@@ -43,7 +44,7 @@ func main() {
 		fmt.Println("Enter your number of tickets: ")
 		fmt.Scan(&userTickets)
 
-		isValidName,isValidEmail,isValidTicketNumber :=  isValidateUserInput(firstname,lastname,email,userTickets )
+		isValidName,isValidEmail,isValidTicketNumber := helper.ValidateUserInput(firstname,lastname,email,userTickets,remainingTickets )
 		if isValidName && isValidEmail && isValidTicketNumber {
 
 			remainingTickets = remainingTickets - userTickets
@@ -96,9 +97,4 @@ func printFirstName(booking []string)  {
 			}
 }
 
-func isValidateUserInput(firstname string,lastname string,email string,userTickets uint) (bool, bool,bool) {
-	isValidName := len(firstname) >= 2 && len(lastname) >= 2
-	isValidEmail := strings.Contains(email, "@")
-	isValidTicketNumber := userTickets > 0 && userTickets <= remainingTickets
-	return isValidName,isValidEmail,isValidTicketNumber
-}
+
