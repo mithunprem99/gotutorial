@@ -2,13 +2,14 @@ package main
 
 import (
 	"fmt"
+	"strconv"
 	"strings"
-	"booking-app/helper"
 )
-var conferenceName = "Go conference" //package level variable that could access from outside the scope
-	const conferenceTickets = 50
-	var remainingTickets uint = 50
 
+var conferenceName = "Go conference" //package level variable that could access from outside the scope
+const conferenceTickets = 50
+
+var remainingTickets uint = 50
 
 func main() {
 	// conferenceName := "Go conference" //variables in go thus can be used for only var and not for const
@@ -24,13 +25,11 @@ func main() {
 		var lastname string
 		var email string
 		var userTickets uint
-		var booking []string
+		var booking = make([]map[string]string, 0)
 
 		//ask the user for name
 
 		userTickets = 2
-
-		
 
 		fmt.Println("\nEnter your first name: ")
 		fmt.Scan(&firstname) //used to take the userinput direct from the user
@@ -44,12 +43,22 @@ func main() {
 		fmt.Println("Enter your number of tickets: ")
 		fmt.Scan(&userTickets)
 
-		isValidName,isValidEmail,isValidTicketNumber := helper.ValidateUserInput(firstname,lastname,email,userTickets,remainingTickets )
+		isValidName, isValidEmail, isValidTicketNumber := ValidateUserInput(firstname, lastname, email, userTickets, remainingTickets)
 		if isValidName && isValidEmail && isValidTicketNumber {
 
 			remainingTickets = remainingTickets - userTickets
+
+			// create a  map for user
+			// we can declare key value as any thing
+			var userData = make(map[string]string)
+
+			userData["fistname"] = firstname
+			userData["lastname"] = lastname
+			userData["email"] = email
+			userData["numberOfTickets"] = strconv.FormatUint(uint64(userTickets), 10) //this will convert the int to string 10 is a decimal value
+
 			// booking[0] = firstname + " " + lastname
-			booking = append(booking, firstname+" "+lastname)
+			booking = append(booking, userData)
 
 			fmt.Printf("The whole slice %v\n", booking)
 			fmt.Printf("The firstvalue slice %v\n", booking[0])
@@ -59,7 +68,7 @@ func main() {
 			// fmt.Println(&firstname)
 			fmt.Printf("Thankyou %v %v for booking %v tickets . You will receive confirmation email at %v\n", firstname, lastname, userTickets, email)
 			fmt.Printf("%v remaining tickets in conference %v\n", remainingTickets, conferenceName)
-			printFirstName(booking)
+			// printFirstName(booking)
 			// firstnames := printFirstName(booking)
 			// fmt.Printf("The first name of the bookings are : %v\n", firstnames)
 			if remainingTickets == 0 {
@@ -86,15 +95,13 @@ func main() {
 }
 
 func greetUsers() {
-	fmt.Printf("Welcome user to the conference %v ",conferenceName)
+	fmt.Printf("Welcome user to the conference %v ", conferenceName)
 }
 
-func printFirstName(booking []string)  {
+func printFirstName(booking []string) {
 	firstnames := []string{}
-			for _, booking := range booking {
-				var name = strings.Fields(booking)
-				firstnames = append(firstnames, name[0])
-			}
+	for _, booking := range booking {
+		var name = strings.Fields(booking)
+		firstnames = append(firstnames, name[0])
+	}
 }
-
-
