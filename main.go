@@ -17,7 +17,6 @@ func main() {
 
 		var firstname string
 		var lastname string
-
 		var email string
 		var userTickets uint
 		var booking []string
