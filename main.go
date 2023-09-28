@@ -2,7 +2,9 @@ package main
 
 import (
 	"fmt"
-	
+	"sync"
+	"time"
+
 	"strings"
 )
 
@@ -16,6 +18,7 @@ type UserData struct {
 	email string
 	numberOfTickets uint 
 }
+var wg = sync.WaitGroup{} 
 
 func main() {
 	// conferenceName := "Go conference" //variables in go thus can be used for only var and not for const
@@ -25,7 +28,7 @@ func main() {
 	fmt.Printf("Welcome to our %v booking application\n", conferenceName)
 	fmt.Printf("We have total of %v and from that %v remaining\n", conferenceTickets, remainingTickets)
 	greetUsers()
-	for {
+	// for {
 
 		var firstname string
 		var lastname string
@@ -72,6 +75,8 @@ func main() {
 
 			// booking[0] = firstname + " " + lastname
 			booking = append(booking, userData)
+			wg.Add(1)
+			go sendTickets(userTickets,firstname,lastname,email)
 
 			fmt.Printf("The whole slice %v\n", booking)
 			fmt.Printf("The firstvalue slice %v\n", booking[0])
@@ -86,7 +91,7 @@ func main() {
 			// fmt.Printf("The first name of the bookings are : %v\n", firstnames)
 			if remainingTickets == 0 {
 				fmt.Println("Our conference is booked out")
-				break
+				// break
 			}
 		} else {
 			if !isValidName {
@@ -102,11 +107,12 @@ func main() {
 			fmt.Printf("Your input data is invalid")
 
 		}
+		wg.Wait()
 
 	}
 
-}
-
+// }
+// 
 func greetUsers() {
 	fmt.Printf("Welcome user to the conference %v ", conferenceName)
 }
@@ -116,5 +122,13 @@ func printFirstName(booking []string) {
 	for _, booking := range booking {
 		var name = strings.Fields(booking)
 		firstnames = append(firstnames, name[0])
-	}
+	} 
+}
+
+
+func sendTickets(userTickets uint,firstname string , lastname string,email string)  {
+	time.Sleep(10 * time.Second)
+	var tickets = fmt.Sprintf("%v tickets for %v %v ",userTickets,firstname,lastname)
+	fmt.Printf("Sending tickets %v to email %v\n",tickets,email )
+	wg.Done()
 }
