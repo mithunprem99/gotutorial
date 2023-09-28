@@ -2,7 +2,7 @@ package main
 
 import (
 	"fmt"
-	"strconv"
+	
 	"strings"
 )
 
@@ -10,6 +10,12 @@ var conferenceName = "Go conference" //package level variable that could access 
 const conferenceTickets = 50
 
 var remainingTickets uint = 50
+type UserData struct {
+	firstname string
+	lastname string
+	email string
+	numberOfTickets uint 
+}
 
 func main() {
 	// conferenceName := "Go conference" //variables in go thus can be used for only var and not for const
@@ -25,9 +31,11 @@ func main() {
 		var lastname string
 		var email string
 		var userTickets uint
-		var booking = make([]map[string]string, 0)
+		var booking = make([]UserData , 0)
 
 		//ask the user for name
+
+
 
 		userTickets = 2
 
@@ -50,12 +58,17 @@ func main() {
 
 			// create a  map for user
 			// we can declare key value as any thing
-			var userData = make(map[string]string)
+			var userData = UserData{
+				firstname: firstname,
+				lastname: lastname,
+				email: email,
+				numberOfTickets: userTickets,
+			}
 
-			userData["fistname"] = firstname
-			userData["lastname"] = lastname
-			userData["email"] = email
-			userData["numberOfTickets"] = strconv.FormatUint(uint64(userTickets), 10) //this will convert the int to string 10 is a decimal value
+			// userData["fistname"] = firstname
+			// userData["lastname"] = lastname
+			// userData["email"] = email
+			// userData["numberOfTickets"] = strconv.FormatUint(uint64(userTickets), 10) //this will convert the int to string 10 is a decimal value
 
 			// booking[0] = firstname + " " + lastname
 			booking = append(booking, userData)
